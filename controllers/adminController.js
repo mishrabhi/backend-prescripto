@@ -2,6 +2,7 @@ const validator = require("validator"); //validates email
 const bcrypt = require("bcrypt");
 const cloudinary = require("cloudinary").v2;
 const doctorModel = require("../models/doctorModel");
+const jwt = require("jsonwebtoken");
 
 //API for adding doctors
 const addDoctor = async (req, res) => {
@@ -95,4 +96,25 @@ const addDoctor = async (req, res) => {
   }
 };
 
-module.exports = addDoctor;
+//api for admin login
+const loginAdmin = async (req, res) => {
+  try {
+    //get email and pass and match with .env email and pass
+    const { email, password } = req.body;
+
+    if (
+      email === process.env.ADMIN_EMAIL &&
+      password === process.env.ADMIN_PASSWORD
+    ) {
+      const token = jwt.sign(email + password, process.env.JWT_SECRET);
+      res.json({ success: true, token });
+    } else {
+      res.json({ sucess: false, message: "Invalid credentials" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+module.exports = { addDoctor, loginAdmin };
