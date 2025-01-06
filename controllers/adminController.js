@@ -99,13 +99,15 @@ const addDoctor = async (req, res) => {
 //api for admin login
 const loginAdmin = async (req, res) => {
   try {
-    //get email and pass and match with .env email and pass
+    //get email and password
     const { email, password } = req.body;
 
+    //match admin credentials
     if (
       email === process.env.ADMIN_EMAIL &&
       password === process.env.ADMIN_PASSWORD
     ) {
+      //generate token
       const token = jwt.sign(email + password, process.env.JWT_SECRET);
       res.json({ success: true, token });
     } else {
