@@ -1,6 +1,6 @@
 const doctorModel = require("../models/doctorModel");
 
-//Change Availability of doctors
+// Change Availability of doctors
 const changeAvailability = async (req, res) => {
   try {
     const { docId } = req.body;
@@ -15,4 +15,15 @@ const changeAvailability = async (req, res) => {
   }
 };
 
-module.exports = changeAvailability;
+// Doctor list
+const doctorList = async (req, res) => {
+  try {
+    const doctors = await doctorModel.find({}).select("-password -email");
+    res.json({ success: true, doctors });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+module.exports = { changeAvailability, doctorList };

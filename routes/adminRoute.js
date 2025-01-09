@@ -6,7 +6,7 @@ const {
 } = require("../controllers/adminController");
 const upload = require("../middlewares/multer");
 const authAdmin = require("../middlewares/authAdmin.js");
-const changeAvailability = require("../controllers/doctorController.js");
+const { changeAvailability } = require("../controllers/doctorController.js");
 
 const adminRouter = express.Router();
 
