@@ -13,12 +13,12 @@ const { changeAvailability } = require("../controllers/doctorController.js");
 
 const adminRouter = express.Router();
 
-adminRouter.post("/add-doctor", authAdmin, upload.single("image"), addDoctor); //admin=>add doctor
+adminRouter.post("/add-doctor", authAdmin, upload.single("image"), addDoctor); //add new doctor
 adminRouter.post("/login", loginAdmin); //admin login
 adminRouter.post("/all-doctors", authAdmin, allDoctors); //get all doctors
 adminRouter.post("/change-availability", authAdmin, changeAvailability); //change availability of doctor
 adminRouter.get("/appointments", authAdmin, appointmentsAdmin); //check doctors appointments
 adminRouter.post("/cancel-appointment", authAdmin, appointmentCancel); //cancel doctor appointments
-adminRouter.get("/dashboard", authAdmin, adminDashboard);
+adminRouter.get("/dashboard", authAdmin, adminDashboard); //admin dashboard
 
 module.exports = adminRouter;
