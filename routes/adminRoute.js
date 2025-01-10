@@ -5,6 +5,7 @@ const {
   allDoctors,
   appointmentsAdmin,
   appointmentCancel,
+  adminDashboard,
 } = require("../controllers/adminController");
 const upload = require("../middlewares/multer");
 const authAdmin = require("../middlewares/authAdmin.js");
@@ -18,5 +19,6 @@ adminRouter.post("/all-doctors", authAdmin, allDoctors); //get all doctors
 adminRouter.post("/change-availability", authAdmin, changeAvailability); //change availability of doctor
 adminRouter.get("/appointments", authAdmin, appointmentsAdmin); //check doctors appointments
 adminRouter.post("/cancel-appointment", authAdmin, appointmentCancel); //cancel doctor appointments
+adminRouter.get("/dashboard", authAdmin, adminDashboard);
 
 module.exports = adminRouter;

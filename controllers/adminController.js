@@ -4,10 +4,12 @@ const cloudinary = require("cloudinary").v2;
 const doctorModel = require("../models/doctorModel");
 const jwt = require("jsonwebtoken");
 const appointmentModel = require("../models/appointmentModel");
+const userModel = require("../models/userModel");
 
 //API for adding doctors
 const addDoctor = async (req, res) => {
   try {
+    //get data from request body
     const {
       name,
       email,
@@ -35,7 +37,7 @@ const addDoctor = async (req, res) => {
       imageFile
     );
 
-    //check for all data to add new doctor
+    //validate data to add new doctor
     if (
       !name ||
       !email ||
@@ -87,7 +89,7 @@ const addDoctor = async (req, res) => {
       address: JSON.parse(address),
     };
 
-    //save doctor
+    //save doctor in db
     const newDoctor = new doctorModel(doctorData);
     await newDoctor.save();
     res.json({ success: true, message: "Doctor added successfully" });
@@ -97,7 +99,7 @@ const addDoctor = async (req, res) => {
   }
 };
 
-//api for admin login
+//Api for admin login
 const loginAdmin = async (req, res) => {
   try {
     //get email and password
@@ -171,10 +173,34 @@ const appointmentCancel = async (req, res) => {
   }
 };
 
+//Api to get dashboard data for admin panel
+const adminDashboard = async (req, res) => {
+  try {
+    //get all doctors,users and appointments
+    const doctors = await doctorModel.find({});
+    const users = await userModel.find({});
+    const appointments = await appointmentModel.find({});
+
+    //take count
+    const dashData = {
+      doctors: doctors.length,
+      patients: users.length,
+      appointments: appointments.length,
+      latestAppointments: appointments.reverse().slice(0, 5), //latest 5 appointments
+    };
+
+    res.json({ success: true, dashData });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   addDoctor,
   loginAdmin,
   allDoctors,
   appointmentsAdmin,
   appointmentCancel,
+  adminDashboard,
 };
