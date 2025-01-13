@@ -3,16 +3,17 @@ const {
   doctorList,
   loginDoctor,
   appointmentsDoctor,
+  appointmentComplete,
+  appointmentCancel,
 } = require("../controllers/doctorController.js");
 const authDoctor = require("../middlewares/authDoctor.js");
-console.log("appointmentsDoctor:", appointmentsDoctor);
-console.log("authDoctor:", authDoctor);
 
 const doctorRouter = express.Router();
 
-doctorRouter.get("/list", doctorList);
-doctorRouter.post("/login", loginDoctor);
-// doctorRouter.get("/appointments", authDoctor, appointmentsDoctor);
-doctorRouter.get("/appointments", authDoctor, appointmentsDoctor);
+doctorRouter.get("/list", doctorList); //list of doctors
+doctorRouter.post("/login", loginDoctor); //doctor login to panel
+doctorRouter.get("/appointments", authDoctor, appointmentsDoctor); //doctor appointments
+doctorRouter.post("/complete-appointment", authDoctor, appointmentComplete); //complete-appointments
+doctorRouter.get("/cancel-appointment", authDoctor, appointmentCancel); //cancel-appointments
 
 module.exports = doctorRouter;
