@@ -1,6 +1,7 @@
 const doctorModel = require("../models/doctorModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const appointmentModel = require("../models/appointmentModel");
 
 // Change Availability of doctors
 const changeAvailability = async (req, res) => {
@@ -53,4 +54,22 @@ const loginDoctor = async (req, res) => {
   }
 };
 
-module.exports = { changeAvailability, doctorList, loginDoctor };
+//Api to get doctor appointments for doctor panel
+const appointmentsDoctor = async (req, res) => {
+  try {
+    const { docId } = req.body;
+    const appointments = await appointmentModel.find({ docId });
+
+    res.json({ success: true, appointments });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+module.exports = {
+  changeAvailability,
+  doctorList,
+  loginDoctor,
+  appointmentsDoctor,
+};
