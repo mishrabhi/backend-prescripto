@@ -6,6 +6,8 @@ const {
   appointmentComplete,
   appointmentCancel,
   doctorDashboard,
+  doctorProfile,
+  updateDoctorProfile,
 } = require("../controllers/doctorController.js");
 const authDoctor = require("../middlewares/authDoctor.js");
 
@@ -17,5 +19,7 @@ doctorRouter.get("/appointments", authDoctor, appointmentsDoctor); //doctor appo
 doctorRouter.post("/complete-appointment", authDoctor, appointmentComplete); //complete-appointments
 doctorRouter.get("/cancel-appointment", authDoctor, appointmentCancel); //cancel-appointments
 doctorRouter.get("/dashboard", authDoctor, doctorDashboard); //doctor dashboard
+doctorRouter.get("/profile", authDoctor, doctorProfile);
+doctorRouter.post("/update-profile", authDoctor, updateDoctorProfile);
 
 module.exports = doctorRouter;
